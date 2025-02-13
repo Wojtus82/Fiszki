@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiszki Angielskie</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f0f0f0; }
+        .flashcard { 
+            width: 300px; 
+            height: 400px; 
+            margin: 10px auto; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 10px 15px 20px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+        }
+        .flashcard.flipped { transform: rotateY(180deg); }
+        .flashcard .front, .flashcard .back {
+            position: absolute; 
+            width: 100%; 
+            height: 100%;
+            backface-visibility: hidden; 
+            display: flex;
+            align-items: center; 
+            justify-content: center; 
+            font-size: 40px;
+            border-radius: 30px;
+        }
+        .flashcard .back { transform: rotateY(180deg); flex-direction: column; }
+        .counter { font-size: 30px; margin-bottom: 3px; }
+        .btn {
+          width: 150px;
+            margin-top: 20px; 
+            padding: 20px; 
+            cursor: pointer; 
+            border: none; 
+            background: #007BFF; 
+            color: white; 
+            border-radius: 30px;
+            box-shadow: 4px 8px 10px rgba(0, 0, 0, 0.4);
+        }
+        .btnin {
+          width: 200px;
+            margin-top: 60px; 
+            margin-bottom: 10px;
+            padding: 20px; 
+            cursor: pointer; 
+            border: none; 
+            background: #007BFF; 
+            font-size: 20px;
+            color: white; 
+            border-radius: 30px;
+            box-shadow: 4px 8px 10px rgba(0, 0, 0, 0.4);
+        }
+        .btn:disabled { background: #A0A0A0; cursor: not-allowed; }
+        .dropdown-container { margin-top: 30px; }
+        select { 
+            width: 3000pxpx; 
+            height: 50px; 
+            font-size: 18px; 
+            text-align: center; 
+            text-align-last: center;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <p>WYBIERZ ZESTAW FISZEK</p>
+        <select id="flashcard-set" onchange="changeFlashcardSet()">
+            <option value="peppa1">Peppa 1</option>
+            <option value="peppa2">Peppa 2</option>
+        </select>
+    <p>Ile fiszek pozostało</p>
+    <div class="counter" id="counter">0/0</div>
+    <div class="flashcard" id="flashcard" onclick="flipFlashcard()">
+        <div class="front" id="word">Loading...</div>
+        <div class="back">
+            <div id="translation">Loading...</div>
+            <div id="phonetics">Loading...</div>
+            <button class="btnin" onclick="speakGoogle(event)">&#128266;WYMOWA&#128266;</button>
+        </div>
+    </div>
+    <button class="btn" id="prevBtn" onclick="changeFlashcard('prev')"> Poprzednia </button>
+    <button class="btn" id="nextBtn" onclick="changeFlashcard('next')"> Następna </button>
+    <div class="dropdown-container">
+        
+    </div>
+
+<script>
+    let flashcards = [];
+    let currentIndex = 0;
+    let history = [];
+    const flashcardElement = document.getElementById("flashcard");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    function getSheetUrl(setName) {
+        if (setName === "peppa1") {
+            return "https://docs.google.com/spreadsheets/d/1g8KKo3CMvefulRHRjebbLquWtbUC7DxC/gviz/tq?tqx=out:csv";
+        } else if (setName === "peppa2") {
+            return "https://docs.google.com/spreadsheets/d/1_GAAI-uHZ6TzSETM86fXbiHEZq8kpQiG/gviz/tq?tqx=out:csv";
+        }
+        return null;
+    }
+
+    async function fetchFlashcards(setName) {
+        const url = getSheetUrl(setName);
+        if (!url) return;
+
+        try {
+            const response = await fetch(url);
+            const text = await response.text();
+            const rows = text.split("\n").slice(1).filter(row => row.trim() !== "");
+            
+            flashcards = rows.map(row => {
+                const cols = row.split(",").map(col => col.replace(/"/g, "").trim());
+                return { word: cols[0] || "Unknown", translation: cols[1] || "Unknown", phonetics: cols[2] || "Unknown" };
+            });
+
+            // Losowanie kolejności tylko raz po załadowaniu
+            flashcards = flashcards.sort(() => Math.random() - 0.5);
+            
+            currentIndex = 0;
+            history = [];
+            updateFlashcard();
+        } catch (error) {
+            console.error("Błąd pobierania danych:", error);
+            document.getElementById("word").textContent = "Błąd ładowania";
+        }
+    }
+
+    function updateFlashcard() {
+        if (flashcards.length === 0) return;
+        flashcardElement.classList.remove("flipped"); // Reset do frontu
+        const card = flashcards[currentIndex];
+        document.getElementById("word").textContent = card.word;
+        document.getElementById("translation").textContent = card.translation;
+        document.getElementById("phonetics").textContent = card.phonetics;
+        document.getElementById("counter").textContent = `${currentIndex + 1}/${flashcards.length}`;
+    }
+
+    function changeFlashcard(direction) {
+        prevBtn.disabled = true;
+        nextBtn.disabled = true;
+
+        if (flashcardElement.classList.contains("flipped")) {
+            flashcardElement.classList.remove("flipped");
+            setTimeout(() => {
+                updateFlashcardIndex(direction);
+            }, 500);
+        } else {
+            updateFlashcardIndex(direction);
+        }
+
+        setTimeout(() => {
+            prevBtn.disabled = false;
+            nextBtn.disabled = false;
+        }, 500);
+    }
+
+    function updateFlashcardIndex(direction) {
+        if (flashcards.length === 0) return;
+
+        if (direction === "next" && currentIndex < flashcards.length - 1) {
+            history.push(currentIndex);
+            currentIndex++;
+        } else if (direction === "prev" && history.length > 0) {
+            currentIndex = history.pop();
+        }
+
+        updateFlashcard();
+    }
+
+    function flipFlashcard() {
+        flashcardElement.classList.toggle("flipped");
+    }
+
+    function speakGoogle(event) {
+        event.stopPropagation();
+        if (flashcards.length === 0) return;
+
+        const word = flashcards[currentIndex].word;
+        const utterance = new SpeechSynthesisUtterance(word);
+        utterance.lang = "en-GB"; // Zmiana na brytyjski angielski
+
+        // Wybór głosu brytyjskiego, jeśli dostępny
+        const voices = speechSynthesis.getVoices();
+        const britishVoice = voices.find(voice => voice.lang === "en-GB" && voice.name.includes("Female"));
+
+        if (britishVoice) {
+            utterance.voice = britishVoice;
+        }
+
+        speechSynthesis.speak(utterance);
+    }
+
+    speechSynthesis.onvoiceschanged = () => {
+        speakGoogle(new Event("dummy"));
+    };
+
+    function changeFlashcardSet() {
+        const selectedSet = document.getElementById("flashcard-set").value;
+        fetchFlashcards(selectedSet);
+    }
+
+    fetchFlashcards("peppa1");
+    
+document.addEventListener("DOMContentLoaded", () => {
+    const flashcardElement = document.getElementById("flashcard");
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    flashcardElement.addEventListener("touchstart", (e) => {
+        touchStartX = e.touches[0].clientX;
+    });
+
+    flashcardElement.addEventListener("touchend", (e) => {
+        touchEndX = e.changedTouches[0].clientX;
+        handleSwipe();
+    });
+
+    function handleSwipe() {
+        const difference = touchStartX - touchEndX;
+
+        if (difference > 50) {
+            changeFlashcard("next"); // Przesunięcie w lewo → następna fiszka
+        } else if (difference < -50) {
+            changeFlashcard("prev"); // Przesunięcie w prawo → poprzednia fiszka
+        }
+    }
+});
+
+</script>
+
+</body>
+</html>
+
