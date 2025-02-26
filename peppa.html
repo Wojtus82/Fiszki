@@ -97,9 +97,7 @@
         </select>
     <p>Ile fiszek pozostało</p>
     <div class="counter" id="counter">0/0</div>
- 
     <div class="flashcard" id="flashcard" onclick="flipFlashcard()">
-       <button class="btnin2" onclick="speakGoogle(event)">&#128266;WYMOWA&#128266;</button>
         <div class="front" id="word">Loading...</div>
         <div class="back">
             <div id="translation">Loading...</div>
@@ -263,12 +261,12 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (difference < -50) {
             changeFlashcard("prev"); // Przesunięcie w prawo → poprzednia fiszka
         }
-         <button class="btnin2" onclick="speakGoogle(event)">&#128266;WYMOWA&#128266;</button>
+        
     }
 });
 
 </script>
-
+ <button class="btnin2" onclick="speakGoogle(event)">&#128266;WYMOWA&#128266;</button>
 </body>
 </html>
 
