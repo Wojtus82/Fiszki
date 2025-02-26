@@ -78,6 +78,9 @@
         <select id="flashcard-set" onchange="changeFlashcardSet()">
             <option value="peppa1">Peppa 1</option>
             <option value="peppa2">Peppa 2</option>
+            <option value="Książki1">Książki 1</option>
+            <option value="Książki2">Książk  2</option>
+            <option value="Książki3">Książki 3</option>
         </select>
     <p>Ile fiszek pozostało</p>
     <div class="counter" id="counter">0/0</div>
@@ -108,6 +111,9 @@
             return "https://docs.google.com/spreadsheets/d/1g8KKo3CMvefulRHRjebbLquWtbUC7DxC/gviz/tq?tqx=out:csv";
         } else if (setName === "peppa2") {
             return "https://docs.google.com/spreadsheets/d/1_GAAI-uHZ6TzSETM86fXbiHEZq8kpQiG/gviz/tq?tqx=out:csv";
+        }
+        else if (setName === "Książka1") {
+            return "https://docs.google.com/spreadsheets/d/1NQstO1P-Zuf2jvYHL5XOGJ0suTxpnT5o/edit?usp=sharing&ouid=101840802687048897139&rtpof=true&sd=true";
         }
         return null;
     }
