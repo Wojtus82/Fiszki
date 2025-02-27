@@ -95,6 +95,10 @@
             <option value="Książki1">Książki 1</option>
             <option value="Książki2">Książki 2</option>
             <option value="Książki3">Książki 3</option>
+            <option value="A1-A2(All)">A1-A2(All)</option>
+            <option value="A1-A2(l)">A1-A2(l)</option>
+            <option value="A1-A2(2)">A1-A2(2)</option>
+            <option value="A1-A2(3)">A1-A2(3)</option>
         </select>
     <p>Ile fiszek pozostało</p>
     <div class="counter" id="counter">0/0</div>
@@ -134,6 +138,18 @@
         }
         else if (setName === "Książki3") {
             return "https://docs.google.com/spreadsheets/d/1PMalVbficN093owUkfVruHwfyWepVjtv/gviz/tq?tqx=out:csv";
+        }
+        else if (setName === "A1-A2(All)") {
+            return "https://docs.google.com/spreadsheets/d/12NVMLq7-0Mo9JDxBymrw4tW8k6fjtAjU/gviz/tq?tqx=out:csv";
+        }
+        else if (setName === "A1-A2(l)") {
+            return "https://docs.google.com/spreadsheets/d/1es9rXob1Aj-kZmdK-3whBWv7Ac3ApGgo/gviz/tq?tqx=out:csv";
+        }
+        else if (setName === "A1-A2(2)") {
+            return "https://docs.google.com/spreadsheets/d/1V0EtmS9qtuKlablEpv7jA-HB9EYHKgq0/gviz/tq?tqx=out:csv";
+        }
+        else if (setName === "A1-A2(3)") {
+            return "https://docs.google.com/spreadsheets/d/1BewmID2tMHyYwiBhxINbpZERjBdbRZ35/gviz/tq?tqx=out:csv";
         }
         return null;
     }
