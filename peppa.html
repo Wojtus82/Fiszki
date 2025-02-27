@@ -99,6 +99,7 @@
             <option value="A1-A2(l)">A1-A2(l)</option>
             <option value="A1-A2(2)">A1-A2(2)</option>
             <option value="A1-A2(3)">A1-A2(3)</option>
+            <option value="Stage8(1)">Stage 8(1)</option>
         </select>
     <p>Ile fiszek pozostało</p>
     <div class="counter" id="counter">0/0</div>
@@ -150,6 +151,9 @@
         }
         else if (setName === "A1-A2(3)") {
             return "https://docs.google.com/spreadsheets/d/1BewmID2tMHyYwiBhxINbpZERjBdbRZ35/gviz/tq?tqx=out:csv";
+        }
+        else if (setName === "Stage8(1)") {
+            return "https://docs.google.com/spreadsheets/d/1Z6rmU2pSKefUFi-xOnb3ddfSuTpljUWo/gviz/tq?tqx=out:csv";
         }
         return null;
     }
