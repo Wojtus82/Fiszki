@@ -243,14 +243,14 @@
     }
 
     function speakGoogle(event) {
-        event.stopPropagation();
-        if (flashcards.length === 0) return;
+    event.stopPropagation();
+    if (flashcards.length === 0) return;
 
-        const word = flashcards[currentIndex].word;
-        const utterance = new SpeechSynthesisUtterance(word);
-        utterance.lang = "en-GB"; // Zmiana na brytyjski angielski
+    const word = flashcards[currentIndex].word;
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.lang = "en-GB"; // Ustawienie języka na brytyjski angielski
 
-        // Wybór głosu brytyjskiego, jeśli dostępny
+    function setVoiceAndSpeak() {
         const voices = speechSynthesis.getVoices();
         const britishVoice = voices.find(voice => voice.lang === "en-GB" && voice.name.includes("Female"));
 
@@ -261,9 +261,19 @@
         speechSynthesis.speak(utterance);
     }
 
-    speechSynthesis.onvoiceschanged = () => {
-        speakGoogle(new Event("dummy"));
-    };
+    // Sprawdzenie, czy głosy są już załadowane
+    if (speechSynthesis.getVoices().length > 0) {
+        setVoiceAndSpeak();
+    } else {
+        speechSynthesis.onvoiceschanged = setVoiceAndSpeak;
+    }
+}
+
+// Opcjonalne wstępne ładowanie głosów
+speechSynthesis.onvoiceschanged = () => {
+    speechSynthesis.getVoices(); // Wymuszenie załadowania listy głosów
+};
+
 
     function changeFlashcardSet() {
         const selectedSet = document.getElementById("flashcard-set").value;
