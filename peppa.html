@@ -88,27 +88,52 @@
     </style>
 </head>
 <body>
-    <p>WYBIERZ ZESTAW FISZEK</p>
-        <select id="flashcard-set" onchange="changeFlashcardSet()">
-            <option value="peppa1">Peppa 1</option>
-            <option value="peppa2">Peppa 2</option>
-            <option value="Książki1">Książki 1</option>
-            <option value="Książki2">Książki 2</option>
-            <option value="Książki3">Książki 3</option>
+    
+<p>WYBIERZ ZESTAW FISZEK</p>
+        
+<select id="kategoria" onchange="
+    var kategoria = this.value;
+    var flashcardSet = document.getElementById('flashcard-set');
+    flashcardSet.innerHTML = '';
+
+    if (kategoria === 'peppa') {
+        flashcardSet.innerHTML = `
+            <option value='peppa1'>Peppa 1</option>
+            <option value='peppa2'>Peppa 2</option>
+        `;
+    } else if (kategoria === 'ksiazki') {
+        flashcardSet.innerHTML = `
+            <option value='Książki1'>Książki 1</option>
+            <option value='Książki2'>Książki 2</option>
+            <option value='Książki3'>Książki 3</option>
+        `;
+    } else if (kategoria === 'A1-A2') {
+        flashcardSet.innerHTML = `
             <option value="A1-A2(All)">A1-A2(All)</option>
-            <option value="A1-A2(l)">A1-A2(1)</option>
+            <option value="A1-A2(1)">A1-A2(l)</option>
             <option value="A1-A2(2)">A1-A2(2)</option>
             <option value="A1-A2(3)">A1-A2(3)</option>
+        `;
+    } else if (kategoria === 'Stege 6') {
+        flashcardSet.innerHTML = `
             <option value="Stage6(1)">Stage 6(1)</option>
             <option value="Stage6(2)">Stage 6(2)</option>
             <option value="Stage6(3)">Stage 6(3)</option>
-            <option value="Stage7(1)">Stage 7(1)</option>
-            <option value="Stage7(2)">Stage 7(2)</option>
-            <option value="Stage7(3)">Stage 7(3)</option>
-            <option value="Stage8(1)">Stage 8(1)</option>
-            <option value="Stage8(2)">Stage 8(2)</option>
-            <option value="Stage8(3)">Stage 8(3)</option>
-        </select>
+        `;
+    
+    }
+">
+    <option value="">Wybierz kategorię</option>
+    <option value="peppa">Świnka Peppa</option>
+    <option value="ksiazki">Książki</option>
+</select>
+
+<select id="flashcard-set" onchange="changeFlashcardSet()"></select>
+
+
+
+
+    
     <p>Ile fiszek pozostało</p>
     <div class="counter" id="counter">0/0</div>
     <div class="flashcard" id="flashcard" onclick="flipFlashcard()">
@@ -151,7 +176,7 @@
         else if (setName === "A1-A2(All)") {
             return "https://docs.google.com/spreadsheets/d/12NVMLq7-0Mo9JDxBymrw4tW8k6fjtAjU/gviz/tq?tqx=out:csv";
         }
-        else if (setName === "A1-A2(l)") {
+        else if (setName === "A1-A2(1)") {
             return "https://docs.google.com/spreadsheets/d/1es9rXob1Aj-kZmdK-3whBWv7Ac3ApGgo/gviz/tq?tqx=out:csv";
         }
         else if (setName === "A1-A2(2)") {
