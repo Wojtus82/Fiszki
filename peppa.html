@@ -102,7 +102,7 @@
             margin-top: 30px;
         }
 
-        select {
+    select {
     width: 190px;
     height: 50px;
     font-size: 18px;
@@ -126,6 +126,38 @@ select.dark-mode {
             background-color: #555;
             box-shadow: 4px 8px 10px rgba(255, 255, 255, 0.2);
         }
+        
+        .circle-toggle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 4px 8px 10px rgba(0, 0, 0, 0.4);
+    transition: background-color 0.3s;
+}
+
+.circle-toggle.dark-mode {
+    background-color: #666;
+    box-shadow: 4px 8px 10px rgba(255, 255, 255, 0.2);
+}
+.inverted-circle {
+    background-color: white; /* Jasny kolor tła */
+    color: #333; /* Ciemny kolor ikony */
+    box-shadow: 4px 8px 10px rgba(0, 0, 0, 0.4);
+}
+
+.dark-mode .inverted-circle {
+    background-color: #333; /* Ciemny kolor tła */
+    color: white; /* Jasny kolor ikony */
+    box-shadow: 4px 8px 10px rgba(255, 255, 255, 0.2);
+}
 
         #error-message {
             color: red;
@@ -134,11 +166,11 @@ select.dark-mode {
     </style>
 </head>
 <body>
-
+<button id="darkModeToggle" class="circle-toggle">&#9788;</button>
 
 
    
-<button id="darkModeToggle">Tryb Ciemny</button> <span>WYBIERZ ZESTAW FISZEK</p>
+<span>WYBIERZ ZESTAW FISZEK</p>
        
 <select id="kategoria" onchange="
     var kategoria = this.value;
