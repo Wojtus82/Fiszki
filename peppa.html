@@ -469,10 +469,10 @@ document.addEventListener("DOMContentLoaded", () => {
             kategoriaSelect.classList.toggle("dark-mode"); // Dodano przełączanie dla kategoriaSelect
 
             if (body.classList.contains("dark-mode")) {
-                darkModeToggle.textContent = "Tryb Jasny";
+               
                 localStorage.setItem("darkMode", "enabled");
             } else {
-                darkModeToggle.textContent = "Tryb Ciemny";
+                
                 localStorage.setItem("darkMode", "disabled");
             }
         });
@@ -483,7 +483,7 @@ document.addEventListener("DOMContentLoaded", () => {
             flashcardElement.classList.add("dark-mode");
             flashcardSetSelect.classList.add("dark-mode");
             kategoriaSelect.classList.add("dark-mode"); // Dodano ustawienie dla kategoriaSelect
-            darkModeToggle.textContent = "Tryb Jasny";
+            
         }
     });
 
