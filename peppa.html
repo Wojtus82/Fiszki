@@ -132,8 +132,8 @@ select.dark-mode {
     height: 25px;
     border-radius: 50%;
     border: none;
-    background-color: #007BFF;
-    color: white;
+    background-color: #121212; /* Domyślny kolor tła */
+    color: white; /* Domyślny kolor ikony */
     font-size: 20px;
     cursor: pointer;
     display: flex;
@@ -144,19 +144,19 @@ select.dark-mode {
 }
 
 .circle-toggle.dark-mode {
-    background-color: #666;
+    background-color: #666; /* Kolor tła w trybie ciemnym */
+    color: #eee; /* Kolor ikony w trybie ciemnym */
     box-shadow: 4px 8px 10px rgba(255, 255, 255, 0.2);
-}
-.inverted-circle {
-    background-color: white; /* Jasny kolor tła */
-    color: #333; /* Ciemny kolor ikony */
-    box-shadow: 4px 8px 10px rgba(0, 0, 0, 0.4);
 }
 
-.dark-mode .inverted-circle {
-    background-color: #333; /* Ciemny kolor tła */
-    color: white; /* Jasny kolor ikony */
-    box-shadow: 4px 8px 10px rgba(255, 255, 255, 0.2);
+.circle-toggle.inverted {
+    background-color: white; /* Odwrócony kolor tła */
+    color: #333; /* Odwrócony kolor ikony */
+}
+
+.circle-toggle.dark-mode.inverted {
+    background-color: #333; /* Odwrócony kolor tła w trybie ciemnym */
+    color: white; /* Odwrócony kolor ikony w trybie ciemnym */
 }
 
 
@@ -481,13 +481,15 @@ document.addEventListener("DOMContentLoaded", () => {
             body.classList.toggle("dark-mode");
             flashcardElement.classList.toggle("dark-mode");
             flashcardSetSelect.classList.toggle("dark-mode");
-            kategoriaSelect.classList.toggle("dark-mode"); // Dodano przełączanie dla kategoriaSelect
+            kategoriaSelect.classList.toggle("dark-mode"); 
+            darkModeToggle.classList.toggle('inverted');
 
-            if (body.classList.contains("dark-mode")) {
-               
+            
+        if (body.classList.contains("dark-mode")) {
+                darkModeToggle.innerHTML = "&#9788;"; // Księżyc
                 localStorage.setItem("darkMode", "enabled");
             } else {
-                
+                darkModeToggle.innerHTML = "&#9788;"; // Słońce
                 localStorage.setItem("darkMode", "disabled");
             }
         });
@@ -498,7 +500,8 @@ document.addEventListener("DOMContentLoaded", () => {
             flashcardElement.classList.add("dark-mode");
             flashcardSetSelect.classList.add("dark-mode");
             kategoriaSelect.classList.add("dark-mode"); // Dodano ustawienie dla kategoriaSelect
-            
+          darkModeToggle.innerHTML = "&#9788;"; // Księżyc
+            darkModeToggle.classList.add('inverted'); // Dodajemy klasę 'inverted'
         }
     });
 
