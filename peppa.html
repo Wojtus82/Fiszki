@@ -5,13 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiszki Angielskie</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #f0f0f0; }
-        .flashcard { 
-            width: 350px; 
-            height: 400px; 
-            margin: 10px auto; 
-            display: flex; 
-            align-items: center; 
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: #333;
+            color: #eee;
+        }
+
+        .flashcard {
+            width: 350px;
+            height: 400px;
+            margin: 10px auto;
+            display: flex;
+            align-items: center;
             justify-content: center;
             background-color: #ffffff;
             border-radius: 20px;
@@ -19,78 +30,116 @@
             cursor: pointer;
             position: relative;
             transform-style: preserve-3d;
-            transition: transform 0.5s;
+            transition: transform 0.5s, background-color 0.3s;
         }
-        .flashcard.flipped { transform: rotateY(180deg); }
+
+        .flashcard.dark-mode {
+            background-color: #444;
+            box-shadow: 10px 15px 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
         .flashcard .front, .flashcard .back {
-            position: absolute; 
-            width: 100%; 
+            position: absolute;
+            width: 100%;
             height: 100%;
-            backface-visibility: hidden; 
+            backface-visibility: hidden;
             display: flex;
-            align-items: center; 
-            justify-content: center; 
+            align-items: center;
+            justify-content: center;
             font-size: 40px;
             border-radius: 30px;
         }
-        .flashcard .back { transform: rotateY(180deg); flex-direction: column; }
-        .counter { font-size: 30px; margin-bottom: 3px; }
-        .btn {
-          width: 150px;
-            margin-top: 20px; 
-            padding: 20px; 
-            cursor: pointer; 
-            border: none; 
-            background: #007BFF; 
-            color: white; 
+
+        .flashcard .back {
+            transform: rotateY(180deg);
+            flex-direction: column;
+        }
+
+        .counter {
+            font-size: 30px;
+            margin-bottom: 3px;
+        }
+
+        .btn, .btnin, .btnin2 {
+            width: 150px;
+            margin-top: 20px;
+            padding: 20px;
+            cursor: pointer;
+            border: none;
+            background: #007BFF;
+            color: white;
             border-radius: 30px;
             box-shadow: 4px 8px 10px rgba(0, 0, 0, 0.4);
+            transition: background-color 0.3s;
         }
-        .btnin {
-          width: 200px;
-            margin-top: 60px; 
-            margin-bottom: 5px;
-            padding: 20px; 
-            cursor: pointer; 
-            border: none; 
-            background: #007BFF; 
+
+        .btnin, .btnin2 {
+            margin-top: 60px;
+            width: 200px;
             font-size: 20px;
-            color: white; 
-            border-radius: 30px;
-            box-shadow: 4px 8px 10px rgba(0, 0, 0, 0.4);
         }
+
         .btnin2 {
-          width: 150px;
-            height: 50px; 
-            margin-top: 5px; 
+            width: 150px;
+            height: 50px;
+            margin-top: 5px;
             margin-bottom: 0px;
-            padding: 20px; 
-            cursor: pointer; 
-            border: none; 
-            background: #007BFF; 
+            padding: 20px;
             font-size: 15px;
-            color: white; 
             border-radius: 25px;
-            box-shadow: 4px 8px 10px rgba(0, 0, 0, 0.4);
         }
-        .btn:disabled { background: #A0A0A0; cursor: not-allowed; }
-        .dropdown-container { margin-top: 30px; }
-        select { 
-            width: 3000pxpx; 
-            height: 50px; 
-            font-size: 18px; 
-            text-align: center; 
-            text-align-last: center;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+
+        .btn:disabled {
+            background: #A0A0A0;
+            cursor: not-allowed;
+        }
+
+        .dropdown-container {
+            margin-top: 30px;
+        }
+
+        select {
+    width: 250px;
+    height: 50px;
+    font-size: 18px;
+    text-align: center;
+    text-align-last: center;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; 
+    background-color: white; /* Domyślny kolor tła */
+    color: black; /* Domyślny kolor tekstu */
+}
+
+select.dark-mode {
+    background-color: #444; /* Ciemny kolor tła */
+    color: #eee; /* Jasny kolor tekstu */
+    border: 1px solid #777; /* Ciemniejszy kolor obramowania */
+}
+
+        .dark-mode .btn, .dark-mode .btnin, .dark-mode .btnin2 {
+            background-color: #555;
+            box-shadow: 4px 8px 10px rgba(255, 255, 255, 0.2);
+        }
+
+        #error-message {
+            color: red;
+            display: none;
         }
     </style>
 </head>
 <body>
-    
+
+<button id="darkModeToggle">Tryb Ciemny</button>
+
+   
 <p>WYBIERZ ZESTAW FISZEK</p>
-        
+       
 <select id="kategoria" onchange="
     var kategoria = this.value;
     var flashcardSet = document.getElementById('flashcard-set');
@@ -152,7 +201,7 @@
 
 
 
-    
+   
     <p>Ile fiszek pozostało</p>
     <div class="counter" id="counter">0/0</div>
     <div class="flashcard" id="flashcard" onclick="flipFlashcard()">
@@ -166,7 +215,7 @@
     <button class="btn" id="prevBtn" onclick="changeFlashcard('prev')"> Poprzednia </button>
     <button class="btn" id="nextBtn" onclick="changeFlashcard('next')"> Następna </button>
     <div class="dropdown-container">
-        
+       
     </div>
 
 <script>
@@ -176,6 +225,11 @@
     const flashcardElement = document.getElementById("flashcard");
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
+    const body = document.body;
+    const darkModeToggle = document.getElementById("darkModeToggle");
+    const kategoriaSelect = document.getElementById("kategoria"); 
+    const flashcardSetSelect = document.getElementById("flashcard-set"); 
+
 
     function getSheetUrl(setName) {
         if (setName === "peppa1") {
@@ -242,7 +296,7 @@
             const response = await fetch(url);
             const text = await response.text();
             const rows = text.split("\n").slice(1).filter(row => row.trim() !== "");
-            
+           
             flashcards = rows.map(row => {
                 const cols = row.split(",").map(col => col.replace(/"/g, "").trim());
                 return { word: cols[0] || "Unknown", translation: cols[1] || "Unknown", phonetics: cols[2] || "Unknown" };
@@ -250,7 +304,7 @@
 
             // Losowanie kolejności tylko raz po załadowaniu
             flashcards = flashcards.sort(() => Math.random() - 0.5);
-            
+           
             currentIndex = 0;
             history = [];
             updateFlashcard();
@@ -345,7 +399,7 @@ speechSynthesis.onvoiceschanged = () => {
     }
 
     fetchFlashcards("peppa1");
-    
+   
 document.addEventListener("DOMContentLoaded", () => {
     const flashcardElement = document.getElementById("flashcard");
     let touchStartX = 0;
@@ -368,12 +422,40 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (difference < -50) {
             changeFlashcard("prev"); // Przesunięcie w prawo → poprzednia fiszka
         }
-        
+       
     }
-});
+    
+     });
+ document.addEventListener("DOMContentLoaded", () => {
+        // ... (listener dotykowy bez zmian)
+
+        // Obsługa trybu ciemnego
+        darkModeToggle.addEventListener("click", () => {
+            body.classList.toggle("dark-mode");
+            flashcardElement.classList.toggle("dark-mode");
+            flashcardSetSelect.classList.toggle("dark-mode");
+            kategoriaSelect.classList.toggle("dark-mode"); // Dodano przełączanie dla kategoriaSelect
+
+            if (body.classList.contains("dark-mode")) {
+                darkModeToggle.textContent = "Tryb Jasny";
+                localStorage.setItem("darkMode", "enabled");
+            } else {
+                darkModeToggle.textContent = "Tryb Ciemny";
+                localStorage.setItem("darkMode", "disabled");
+            }
+        });
+
+        // Sprawdzenie zapisanego trybu ciemnego
+        if (localStorage.getItem("darkMode") === "enabled") {
+            body.classList.add("dark-mode");
+            flashcardElement.classList.add("dark-mode");
+            flashcardSetSelect.classList.add("dark-mode");
+            kategoriaSelect.classList.add("dark-mode"); // Dodano ustawienie dla kategoriaSelect
+            darkModeToggle.textContent = "Tryb Jasny";
+        }
+    });
 
 </script>
  <button class="btnin2" onclick="speakGoogle(event)">&#128266;WYMOWA&#128266;</button>
 </body>
 </html>
-
