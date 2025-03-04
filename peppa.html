@@ -159,6 +159,21 @@ select.dark-mode {
     box-shadow: 4px 8px 10px rgba(255, 255, 255, 0.2);
 }
 
+
+.header-container {
+    display: flex;
+    align-items: center; /* Wyrównanie w pionie */
+    justify-content: flex-start; /* wyrównanie do lewej strony */
+    width: 100%; /* Zajmuje całą szerokość */
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.centered-text {
+    flex-grow: 1; /* Wypełnia wolną przestrzeń */
+    text-align: center; /* Centrowanie tekstu */
+    margin-left: 20px; /* Dodaje odstęp od lewej strony tekstu */
+}
         #error-message {
             color: red;
             display: none;
@@ -166,11 +181,11 @@ select.dark-mode {
     </style>
 </head>
 <body>
-<button id="darkModeToggle" class="circle-toggle">&#9788;</button>
 
-
-   
-<span>WYBIERZ ZESTAW FISZEK</p>
+<div class="header-container">
+    <button id="darkModeToggle" class="circle-toggle">&#9788;</button>
+    <span class="centered-text">WYBIERZ ZESTAW FISZEK</span>
+</div>
        
 <select id="kategoria" onchange="
     var kategoria = this.value;
