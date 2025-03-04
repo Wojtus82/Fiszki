@@ -107,19 +107,19 @@
             <option value='Książki2'>Książki 2</option>
         `;
     }
-        else if (kategoria === 'A1-A2') {
+        else if (kategoria === 'A1A2') {
         flashcardSet.innerHTML = `
-            <option value="A1-A2(All)">A1-A2(All)</option>
-            <option value="A1-A2(l)">A1-A2(1)</option>
-            <option value="A1-A2(2)">A1-A2(2)</option>
-            <option value="A1-A2(3)">A1-A2(3)</option>
+            <option value='A1-A2(All)'>A1-A2(All)</option>
+            <option value='A1-A2(l)'>A1-A2(1)</option>
+            <option value='A1-A2(2)'>A1-A2(2)</option>
+            <option value='A1-A2(3)'>A1-A2(3)</option>
         `;
    }
 ">
     <option value="">Wybierz kategorię</option>
     <option value="peppa">Świnka Peppa</option>
     <option value="ksiazki">Książki</option>
-    <option value="A1-A2">A1-A2</option>
+    <option value="A1A2">A1-A2</option>
 </select>
 
 <select id="flashcard-set" onchange="changeFlashcardSet()"></select>
