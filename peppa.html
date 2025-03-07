@@ -74,12 +74,13 @@
     color: white;
     border-radius: 30px;
     box-shadow: 4px 8px 10px rgba(0, 0, 0, 0.4);
-    transition: transform 0.1s ease, box-shadow 0.1s ease; /* Dodano animacje */
+    transition: box-shadow 0.1s ease, transform 0.1s ease;
+    outline: none; /* Usuń domyślne obramowanie */
 }
 
 .btn:active, .btnin:active, .btnin2:active {
-    transform: translateY(3px); /* Przesunięcie w dół */
-    box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.4); /* Mniejszy cień */
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5);
+    transform: translateY(2px);
 }
         .btnin, .btnin2 {
             margin-top: 60px;
