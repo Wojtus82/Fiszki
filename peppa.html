@@ -215,6 +215,16 @@ select.dark-mode {
             <option value='A1-A2(2)'>A1-A2(2)</option>
             <option value='A1-A2(3)'>A1-A2(3)</option>
         `;
+
+    }
+    else if (kategoria ==='stage5') {
+        flashcardSet.innerHTML = `
+        <option value=''>Wybierz fiszki</option>
+            <option value='Stage5(1)'>Stage 5(1)</option>
+            <option value='Stage5(2)'>Stage 5(2)</option>
+            <option value='Stage5(3)'>Stage 5(3)</option>
+        `;
+        
    }
     else if (kategoria ==='stage6') {
         flashcardSet.innerHTML = `
@@ -223,6 +233,7 @@ select.dark-mode {
             <option value='Stage6(2)'>Stage 6(2)</option>
             <option value='Stage6(3)'>Stage 6(3)</option>
         `;
+        
    }
     else if (kategoria ==='stage7') {
         flashcardSet.innerHTML = `
@@ -239,12 +250,14 @@ select.dark-mode {
             <option value='Stage8(2)'>Stage 8(2)</option>
             <option value='Stage8(3)'>Stage 8(3)</option>
         `;
+        
    }
 ">
     <option value="">Wybierz kategorię</option>
     <option value="peppa">Świnka Peppa</option>
     <option value="ksiazki">Książki</option>
     <option value="A1A2">A1-A2</option>
+    <option value="stage6">Stage 5</option>
     <option value="stage6">Stage 6</option>
     <option value="stage7">Stage 7</option>
     <option value="stage8">Stage 8</option>
@@ -311,6 +324,15 @@ select.dark-mode {
         }
         else if (setName === "A1-A2(3)") {
             return "https://docs.google.com/spreadsheets/d/1BewmID2tMHyYwiBhxINbpZERjBdbRZ35/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Stage5(1)") {
+            return "https://docs.google.com/spreadsheets/d/17jrxHXVnTfcyXPIOTWYHZLDgFmhkq3Hu/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Stage5(2)") {
+            return "https://docs.google.com/spreadsheets/d/1YP5nK1b0-0rstZZu6aRaNDkW80Bcu1Fh/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Stage5(3)") {
+            return "https://docs.google.com/spreadsheets/d/14GsuxmPU7UKFZEeif-IyjiUIS1OFf2ZS/gviz/tq?tqx=out:csv";
         }
             else if (setName === "Stage6(1)") {
             return "https://docs.google.com/spreadsheets/d/1TOHE82rXyCk6IMJNYJlk8e5PeHNaO8Bk/gviz/tq?tqx=out:csv";
