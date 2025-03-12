@@ -230,7 +230,16 @@ select.dark-mode {
             <option value='A1-A2(2)'>A1-A2(2)</option>
             <option value='A1-A2(3)'>A1-A2(3)</option>
         `;
-            
+
+           }
+    else if (kategoria ==='stage2') {
+        flashcardSet.innerHTML = `
+        <option value=''>Wybierz fiszki</option>
+            <option value='Stage2(1)'>Stage 2(1)</option>
+            <option value='Stage2(2)'>Stage 2(2)</option>
+            <option value='Stage2(3)'>Stage 2(3)</option>
+        `;
+
             }
     else if (kategoria ==='stage3') {
         flashcardSet.innerHTML = `
@@ -290,6 +299,7 @@ select.dark-mode {
     <option value="peppa">Świnka Peppa</option>
     <option value="ksiazki">Książki</option>
     <option value="A1A2">A1-A2</option>
+     <option value="stage2">Stage 2</option>
     <option value="stage3">Stage 3</option>
     <option value="stage4">Stage 4</option>
     <option value="stage5">Stage 5</option>
@@ -360,7 +370,16 @@ select.dark-mode {
         else if (setName === "A1-A2(3)") {
             return "https://docs.google.com/spreadsheets/d/1BewmID2tMHyYwiBhxINbpZERjBdbRZ35/gviz/tq?tqx=out:csv";
         }
-            
+
+            else if (setName === "Stage2(1)") {
+            return "https://docs.google.com/spreadsheets/d/1VUqQnkD52DLIgwnGbSqB6_nx7mPeD-WJ/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Stage2(2)") {
+            return "https://docs.google.com/spreadsheets/d/18Z_UHZwLnQcpIsI4EFqd_sxSIAabe-er/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Stage2(3)") {
+            return "https://docs.google.com/spreadsheets/d/1SsSZQopYC2kleDjcc_24d44pIisULmxO/gviz/tq?tqx=out:csv";
+        }
             else if (setName === "Stage3(1)") {
             return "https://docs.google.com/spreadsheets/d/18h-LUiEwyqDgl9xV6cIFemN6wNYJ8K42/gviz/tq?tqx=out:csv";
         }
