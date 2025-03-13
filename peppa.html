@@ -231,6 +231,15 @@ select.dark-mode {
             <option value='A1-A2(3)'>A1-A2(3)</option>
         `;
 
+            }
+    else if (kategoria ==='stage1') {
+        flashcardSet.innerHTML = `
+        <option value=''>Wybierz fiszki</option>
+            <option value='Stage1(1)'>Stage 1(1)</option>
+            <option value='Stage1(2)'>Stage 1(2)</option>
+            
+        `;
+
            }
     else if (kategoria ==='stage2') {
         flashcardSet.innerHTML = `
@@ -299,6 +308,7 @@ select.dark-mode {
     <option value="peppa">Świnka Peppa</option>
     <option value="ksiazki">Książki</option>
     <option value="A1A2">A1-A2</option>
+    <option value="stage1">Stage 1</option>
      <option value="stage2">Stage 2</option>
     <option value="stage3">Stage 3</option>
     <option value="stage4">Stage 4</option>
@@ -369,6 +379,15 @@ select.dark-mode {
         }
         else if (setName === "A1-A2(3)") {
             return "https://docs.google.com/spreadsheets/d/1BewmID2tMHyYwiBhxINbpZERjBdbRZ35/gviz/tq?tqx=out:csv";
+
+            }
+
+            else if (setName === "Stage1(1)") {
+            return "https://docs.google.com/spreadsheets/d/1DLY0782UTtAQwt782noQAhu5HvUF8S5i/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Stage1(2)") {
+            return "https://docs.google.com/spreadsheets/d/1EsX81PNkqYQuppP1Yj26jh7WsoxFwpIr/gviz/tq?tqx=out:csv";
+            
         }
 
             else if (setName === "Stage2(1)") {
