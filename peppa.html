@@ -220,6 +220,7 @@ select.dark-mode {
             <option value='Książki1'>Książki 1</option>
             <option value='Książki2'>Książki 2</option>
             <option value='Książki3'>Książki 3</option>
+            <option value='Recent'>Recent</option>
         `;
     }
         else if (kategoria === 'A1A2') {
@@ -374,6 +375,9 @@ select.dark-mode {
         }
         else if (setName === "Książki3") {
             return "https://docs.google.com/spreadsheets/d/1PMalVbficN093owUkfVruHwfyWepVjtv/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Recent") {
+            return "https://docs.google.com/spreadsheets/d/1uZ8eu5FVRvOkQzJJZmtGxPAeJ9iaJmiuELKKRFpT5fk/gviz/tq?tqx=out:csv";
         }
         else if (setName === "A1-A2(All)") {
             return "https://docs.google.com/spreadsheets/d/12NVMLq7-0Mo9JDxBymrw4tW8k6fjtAjU/gviz/tq?tqx=out:csv";
