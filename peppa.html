@@ -185,6 +185,14 @@ select.dark-mode {
     box-sizing: border-box;
 }
 
+
+          #word {
+    font-size: 24px; /* Wielkość czcionki w pikselach */
+    color: #333; /* Kolor tekstu */
+    font-weight: bold; /* Wyróżnienie tekstu */
+}
+
+
 .centered-text {
     flex-grow: 1; /* Wypełnia wolną przestrzeń */
     text-align: center; /* Centrowanie tekstu */
@@ -334,13 +342,14 @@ select.dark-mode {
    
     <p>Ile fiszek pozostało</p>
     <div class="counter" id="counter">0/0</div>
-    <div class="flashcard" id="flashcard" onclick="flipFlashcard()">
-        <div class="front" id="word">Loading...</div>
-        <div class="back">
-            <div id="translation">Loading...</div>
-            <div id="phonetics">Loading...</div>
-            <button class="btnin" onclick="speakGoogle(event)">&#128266;WYMOWA&#128266;</button>
-        </div>
+     <div class="flashcard" id="flashcard" onclick="flipFlashcard()">
+    <div class="front" id="word">Loading...</div>
+    <div class="back">
+        <div id="translation">Loading...</div>
+        <div id="phonetics">Loading...</div>
+        <button class="btn" id="showFourthColumnBtn" onclick="showFourthColumn(event)">Więcej</button>
+        
+    </div>
     </div>
     <button class="btn" id="prevBtn" onclick="changeFlashcard('prev')"> Poprzednia </button>
     <button class="btn" id="nextBtn" onclick="changeFlashcard('next')"style=margin-left:20px;> Następna </button>
@@ -359,6 +368,17 @@ select.dark-mode {
     const darkModeToggle = document.getElementById("darkModeToggle");
     const kategoriaSelect = document.getElementById("kategoria"); 
     const flashcardSetSelect = document.getElementById("flashcard-set"); 
+
+
+    
+    function showFourthColumn() {
+    if (flashcards.length === 0) return;
+document.getElementById("word").style.fontSize = "12px";
+
+    const card = flashcards[currentIndex];
+    document.getElementById("word").textContent = card.column4 || "Brak danych";
+}
+
 
 
     function getSheetUrl(setName) {
