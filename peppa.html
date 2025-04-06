@@ -523,7 +523,10 @@ document.getElementById("word").style.fontSize = "12px";
            
             flashcards = rows.map(row => {
                 const cols = row.split(",").map(col => col.replace(/"/g, "").trim());
-                return { word: cols[0] || "Unknown", translation: cols[1] || "Unknown", phonetics: cols[2] || "Unknown" };
+                 return { word: cols[0] || "Unknown", translation: cols[1] || "Unknown", phonetics: cols[2] || "Unknown", 
+        column4: cols[3] || "Unknown"
+    };
+
             });
 
             // Losowanie kolejności tylko raz po załadowaniu
