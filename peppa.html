@@ -376,6 +376,68 @@ document.getElementById("word").style.fontSize = "17px";
 document.getElementById("word").style.fontSize = "17px";
 
 
+
+
+
+
+
+
+
+
+    
+
+
+
+async function readTextInCorrectLanguage(text) {
+    // Tutaj umieścisz logikę do detekcji języka w tekście
+    const segments = await detectLanguageAndSplit(text);
+
+    for (const segment of segments) {
+        const { language, textPart } = segment;
+        await speak(textPart, language); // Funkcja do syntezy mowy
+    }
+}
+
+async function detectLanguageAndSplit(text) {
+    // To jest tylko przykład - będziesz potrzebował prawdziwej biblioteki do detekcji języka
+    const language = await someLanguageDetectionLibrary.detect(text);
+    return [{ language: language, textPart: text }]; // W uproszczeniu zakładamy jeden język na cały tekst
+}
+
+async function speak(text, language) {
+    // To jest tylko przykład - będziesz potrzebował API lub biblioteki do syntezy mowy
+    if (language === 'pl') {
+        await somePolishTTSLibrary.speak(text);
+    } else if (language === 'en') {
+        await someEnglishTTSLibrary.speak(text);
+    } else {
+        console.warn(`Nieobsługiwany język: ${language}`);
+    }
+}
+
+function showFourthColumn() {
+    if (flashcards.length === 0) return;
+    document.getElementById("word").style.fontSize = "17px";
+
+    const card = flashcards[currentIndex];
+    const textToRead = card.column4 || "Brak danych";
+    document.getElementById("word").textContent = textToRead;
+
+    // Wywołanie funkcji do czytania tekstu
+    readTextInCorrectLanguage(textToRead);
+}
+document.getElementById("word").style.fontSize = "17px";
+
+
+
+
+
+
+
+
+    
+
+
     function getSheetUrl(setName) {
         if (setName === "peppa1") {
             return "https://docs.google.com/spreadsheets/d/1g8KKo3CMvefulRHRjebbLquWtbUC7DxC/gviz/tq?tqx=out:csv";
