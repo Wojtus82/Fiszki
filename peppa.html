@@ -370,10 +370,6 @@ select.dark-mode {
     if (flashcards.length === 0) return;
 document.getElementById("word").style.fontSize = "17px";
 
-    const card = flashcards[currentIndex];
-    document.getElementById("word").textContent = card.column4 || "Brak danych";
-}
-document.getElementById("word").style.fontSize = "17px";
 
 
 
@@ -384,7 +380,11 @@ document.getElementById("word").style.fontSize = "17px";
 
 
 
-    
+
+
+
+
+
 
 
 
@@ -434,8 +434,24 @@ document.getElementById("word").style.fontSize = "17px";
 
 
 
+        
 
-    
+
+
+
+
+
+
+
+
+        
+
+    const card = flashcards[currentIndex];
+    document.getElementById("word").textContent = card.column4 || "Brak danych";
+}
+document.getElementById("word").style.fontSize = "17px";
+
+
 
 
     function getSheetUrl(setName) {
