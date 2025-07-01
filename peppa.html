@@ -317,8 +317,12 @@ select.dark-mode {
             <option value='Stage8(4)'>Stage 8(4)</option>
             <option value='Stage8(5)'>Stage 8(5)</option>
         `;
-        
-   }
+         }
+
+    else if (kategoria ==='NGK') {
+        flashcardSet.innerHTML = `
+        <option value=''>Wybierz fiszki</option>
+            <option value='NGK'>NGK</option>
 ">
     <option value="">Wybierz kategorię</option>
     <option value="peppa">Świnka Peppa</option>
@@ -332,6 +336,7 @@ select.dark-mode {
     <option value="stage6">Stage 6</option>
     <option value="stage7">Stage 7</option>
     <option value="stage8">Stage 8</option>
+    <option value="NGK">NGK</option>
 </select>
 
 <select id="flashcard-set" onchange="changeFlashcardSet()"></select>
@@ -525,6 +530,10 @@ document.getElementById("word").style.fontSize = "17px";
         }
         else if (setName === "Stage8(5)") {
             return "https://docs.google.com/spreadsheets/d/1rjuLI6MbE-Em45CDj3u2FCvPlwWYwEFb/gviz/tq?tqx=out:csv";
+        }
+
+        else if (setName === "NGK") {
+            return "https://docs.google.com/spreadsheets/d/198YJSikcfFtLNNDAYD9St7DjYMOxdPNNz4YJ-pzP_MY/gviz/tq?tqx=out:csv";
         }
         return null;
     }
