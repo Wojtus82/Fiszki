@@ -322,9 +322,9 @@ select.dark-mode {
     else if (kategoria ==='NGK') {
         flashcardSet.innerHTML = `
         <option value=''>Wybierz fiszki</option>
-            <option value='NGK'>NGK</option>
-            ';
-     }
+            <option value='NGK1'>NGK1</option>
+        `;
+         }
 ">
     <option value="">Wybierz kategorię</option>
     <option value="peppa">Świnka Peppa</option>
@@ -534,7 +534,7 @@ document.getElementById("word").style.fontSize = "17px";
             return "https://docs.google.com/spreadsheets/d/1rjuLI6MbE-Em45CDj3u2FCvPlwWYwEFb/gviz/tq?tqx=out:csv";
         }
 
-        else if (setName === "NGK") {
+        else if (setName === "NGK1") {
             return "https://docs.google.com/spreadsheets/d/198YJSikcfFtLNNDAYD9St7DjYMOxdPNNz4YJ-pzP_MY/gviz/tq?tqx=out:csv";
         }
         return null;
