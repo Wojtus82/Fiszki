@@ -996,31 +996,68 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 <script>
+  
+  // Helper: wybór najlepszego dostępnego głosu dla danego języka
+function pickBestVoice(lang = 'en-GB') {
+  const prefer = [
+    'Google UK English',      // Chrome desktop
+    'Microsoft',              // Edge/Windows głosy neural
+    'Siri', 'Daniel', 'Serena'// iOS/macOS popularne głosy EN-GB
+  ];
+  const voices = (speechSynthesis.getVoices?.() || []).filter(v => v.lang && v.lang.startsWith(lang));
+  if (!voices.length) return null;
+
+  // sortuj wg preferencji nazw
+  voices.sort((a, b) => {
+    const ai = prefer.findIndex(n => a.name.includes(n));
+    const bi = prefer.findIndex(n => b.name.includes(n));
+    return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+  });
+  return voices[0] || null;
+}
+
+
+
+
 // Czytanie kolumny 4 bez polskich tłumaczeń w nawiasach
 function speakFourthColumn(event) {
-    // nie odwracaj karty przy kliknięciu w przycisk
-    event.stopPropagation();
+  // nie odwracaj karty przy kliknięciu w przycisk
+  event.stopPropagation();
 
-    const raw = (document.getElementById("word")?.textContent || "");
-    // usuń wszystko w nawiasach (...) razem z nawiasami
-    const englishOnly = raw.replace(/\([^)]*\)/g, " ").replace(/\s{2,}/g, " ").trim();
-    if (!englishOnly) return;
+  const raw = (document.getElementById("word")?.textContent || "");
+  // usuń wszystko w nawiasach (...) razem z nawiasami – zostaw tylko angielski
+  const englishOnly = raw.replace(/\([^)]*\)/g, " ").replace(/\s{2,}/g, " ").trim();
+  if (!englishOnly) return;
 
-    const utter = new SpeechSynthesisUtterance(englishOnly);
-    utter.lang = "en-GB";
-    utter.rate = 0.8;
-    utter.pitch = 1.0;
+  // Zawsze wyczyść kolejkę, żeby nie nakładały się wypowiedzi
+  try { speechSynthesis.cancel(); } catch (e) {}
 
-    // spróbuj dobrać brytyjski głos, potem fallback
-    const speakNow = () => {
-        const voices = speechSynthesis.getVoices();
-        const gb = voices.find(v => v.lang?.includes("en-GB") && (v.name?.includes("UK") || v.name?.includes("British") || v.localService));
-        if (gb) utter.voice = gb;
-        speechSynthesis.speak(utter);
-    };
-    if (speechSynthesis.getVoices().length > 0) speakNow();
-    else speechSynthesis.onvoiceschanged = speakNow;
+  const utter = new SpeechSynthesisUtterance(englishOnly);
+  utter.lang = "en-GB";
+
+  // Na telefonie trochę wolniej (brzmi naturalniej), na desktopie normalnie
+  const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+  utter.rate = isMobile ? 0.9 : 1.0;
+  utter.pitch = 1.0;
+
+  // Wybierz najlepszy dostępny głos (jeśli jest)
+  const setAndSpeak = () => {
+    const v = pickBestVoice('en-GB');
+    if (v) utter.voice = v;
+    speechSynthesis.speak(utter);
+  };
+
+  // Jeśli głosy jeszcze się nie załadowały, poczekaj na onvoiceschanged
+  if ((speechSynthesis.getVoices?.() || []).length === 0 && 'onvoiceschanged' in speechSynthesis) {
+    const once = () => { speechSynthesis.onvoiceschanged = null; setAndSpeak(); };
+    speechSynthesis.onvoiceschanged = once;
+    // awaryjnie spróbuj też za chwilę
+    setTimeout(() => { if (speechSynthesis.onvoiceschanged) { once(); } }, 300);
+  } else {
+    setAndSpeak();
+  }
 }
+
 </script>
 
 
@@ -1040,7 +1077,6 @@ function speakFourthColumn(event) {
 
 </body>
 </html>
-
 
 
 
