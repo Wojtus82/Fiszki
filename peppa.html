@@ -18,19 +18,25 @@
         }
 
         .flashcard {
-            width: 350px;
-            height: 400px;
-            margin: 10px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #ffffff;
-            border-radius: 20px;
-            box-shadow: 10px 15px 20px rgba(0, 0, 0, 0.5);
-        
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.6s, background-color 4.3s;
+  /* Zamiast sztywnych 350x400 – elastyczne wymiary */
+  width: clamp(280px, 92vw, 720px);
+  height: clamp(220px, 58vh, 520px);
+
+  margin: 12px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 10px 15px 20px rgba(0, 0, 0, 0.5);
+
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s, background-color 4.3s, color 1.3s;
+  box-sizing: border-box;
+}
+
         }
 
         .flashcard.dark-mode {
@@ -42,22 +48,31 @@
             transform: rotateY(180deg);
         }
 
-        .flashcard .front, .flashcard .back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            border-radius: 30px;
-        }
+        .flashcard .front,
+.flashcard .back {
+  position: absolute;
+  inset: 0;                 /* równo do krawędzi karty */
+  backface-visibility: hidden;
 
-        .flashcard .back {
-            transform: rotateY(180deg);
-            flex-direction: column;
-        }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;   /* treść jedna pod drugą */
+
+  /* Zamiast sztywnego font-size: 40px – skaluje się z ekranem */
+  font-size: clamp(18px, 4.5vw, 36px);
+  line-height: 1.35;
+
+  padding: clamp(12px, 2.5vw, 24px);
+  border-radius: 20px;
+  box-sizing: border-box;
+}
+
+.flashcard .back {
+  transform: rotateY(180deg);
+  /* zostawiamy kolumnę – tam już masz kilka elementów */
+}
+
 
         .counter {
             font-size: 30px;
@@ -68,7 +83,7 @@
     width: 150px;
     margin-top: 20px;
     padding: 20px;
-    
+   
     border: none;
     background: #007BFF;
     color: white;
@@ -112,24 +127,40 @@
     outline: none;
 }
 
-        
+       
         .dropdown-container {
             margin-top: 30px;
         }
 
-    select {
-    width: 190px;
-    height: 50px;
-    font-size: 18px;
-    text-align: center;
-    text-align-last: center;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-    transition: background-color 4.3s, color 1.3s, border-color 1.3s; 
-    background-color: white; /* Domyślny kolor tła */
-    color: black; /* Domyślny kolor tekstu */
+    /* NOWE: trzyma oba selecty w jednym wierszu i pozwala im się zwężać */
+.select-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;     /* nigdy jeden pod drugim */
+  width: 100%;
+  box-sizing: border-box;
 }
+
+/* Podmiana poprzedniego bloku select { ... } na ten */
+select {
+  flex: 1 1 0;           /* dzielą miejsce po równo */
+  width: auto;           /* zamiast sztywnego 190px */
+  min-width: 120px;      /* mogą się zwężać na małych ekranach */
+  max-width: 420px;
+  height: 50px;
+  font-size: 18px;
+  text-align: center;
+  text-align-last: center;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 4.3s, color 1.3s, border-color 1.3s;
+  background-color: white;
+  color: black;
+}
+
 
 select.dark-mode {
     background-color: #444; /* Ciemny kolor tła */
@@ -141,7 +172,7 @@ select.dark-mode {
             background-color: #555;
             box-shadow: 4px 8px 10px rgba(255, 255, 255, 0.2);
         }
-        
+       
         .circle-toggle {
     width: 25px;
     height: 25px;
@@ -186,7 +217,7 @@ select.dark-mode {
 }
 
 
-    
+   
 
 .centered-text {
     flex-grow: 1; /* Wypełnia wolną przestrzeń */
@@ -197,6 +228,180 @@ select.dark-mode {
             color: red;
             display: none;
         }
+        
+        
+        
+        /* front ma kolumnowy układ, aby pod tekstem był przycisk do czytania */
+.flashcard .front { 
+  flex-direction: column; 
+  padding: 16px; 
+  box-sizing: border-box; 
+}
+/* kolumna 4 to kilka zdań – pozwól na łamanie linii */
+#word { 
+  white-space: pre-wrap; 
+  line-height: 1.35; 
+  text-align: center;
+}
+/* domyślnie przycisk z trzeciej strony ukryty; pokazujemy go dopiero przy kolumnie 4 */
+#readFourthBtn { 
+  display: none; 
+  margin-top: 12px; 
+}
+
+/* Wiersz dla przycisków nawigacji */
+.nav-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;     /* zawsze obok siebie, bez zawijania */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Ujednolicenie szerokości i brak sztucznego marginesu z .btn */
+.nav-row .btn {
+  flex: 1 1 0;
+  width: auto;           /* nadpisuje sztywną szerokość z .btn */
+  min-width: 120px;
+  max-width: 260px;
+  margin-top: 0;         /* żeby oba przyciski były w jednej linii równo */
+}
+
+
+#word,
+#translation,
+#phonetics {
+  overflow-wrap: anywhere;  /* nie wyjedzie poza kartę */
+  word-break: break-word;
+  text-align: center;
+}
+
+@media (max-height: 560px) {
+  .flashcard { height: clamp(200px, 50vh, 480px); }
+}
+
+/* --- Fit-to-screen (bez scrolla) --- */
+html, body { height: 100dvh; margin: 0; }
+body { display: flex; flex-direction: column; overflow: hidden; }
+
+/* Karta ma zająć całe wolne miejsce między nagłówkiem, selectami, licznikami i przyciskami */
+.flashcard {
+  flex: 1 1 auto;       /* rośnie/kurczy się do wolnej wysokości */
+  height: auto !important;
+  min-height: 0;
+}
+
+/* Drobne zacieśnienie odstępów, żeby łatwiej zmieścić wszystko w pionie */
+p { margin: 4px 0; }
+.counter { margin: 2px 0 6px; }
+.select-row, .header-container, .nav-row { margin-top: 4px; }
+
+/* (pusta) sekcja pod dropdownami niech nie zabiera miejsca */
+.dropdown-container { display: none; }
+
+/* --- Auto-fit wysokości + brak nachodzenia przycisków --- */
+html, body { height: 100dvh; margin: 0; }
+body { display: flex; flex-direction: column; overflow: hidden; }
+
+.flashcard{
+  flex: 1 1 auto;
+  height: auto !important;  /* nadpisuje dotychczasowe clamp(...) i @media */
+  min-height: 0;
+}
+
+/* delikatny odstęp nad wierszem nawigacji */
+.nav-row{ margin-top: 6px; }
+
+/* WYMOWA: zawsze w nowej linii, wyśrodkowana, bez ujemnego marginesu */
+.btnin2{ display:block; margin:10px auto 0 !important; }
+
+        
+/* Delikatnie węższe selecty niż ekran */
+:root { --select-side-gap: 12px; } /* zmień 12px jeśli chcesz więcej/mniej */
+:root { --footer-gap: 30px; } /* odległość od dołu ekranu – zmienisz jedną liczbą */
+
+/* jeśli już masz to zrobione, ten blok się tylko nadpisze */
+html, body { height: 100dvh; margin: 0; }
+body { display: flex; flex-direction: column; }
+
+
+
+
+   
+
+/* Karta wypełnia wolną przestrzeń */
+.flashcard { flex: 1 1 auto; height: auto !important; min-height: 0; }
+
+/* Nawigacja schodzi na dół kolumny, bez dodatkowego dołu */
+.nav-row { margin-top: auto !important; margin-bottom: 0 !important; }
+
+/* WYMOWA: dokładnie 10px nad przyciskami nawigacji */
+.btnin2 { display: block; margin: 20px auto 0 !important; }
+
+
+        /* Delikatnie węższe selecty niż ekran */
+:root { --select-side-gap: 12px; } /* zmień 12px jeśli chcesz więcej/mniej */
+:root { --footer-gap: 30px; } /* odległość od dołu ekranu – zmienisz jedną liczbą */
+.select-row{
+  box-sizing: border-box;
+  padding-left: var(--select-side-gap);
+  padding-right: var(--select-side-gap);
+}
+
+/* jeśli w .select-row masz flex i dwa selecty, to poniższe utrzyma je obok siebie */
+.select-row select{ min-width: 0; }
+
+
+:root { --footer-gap: 45px; } /* odstęp od dołu ekranu */
+
+.btnin2{
+  /* już masz margin-top:10px; to zostaje — dodajemy tylko dół */
+  margin-bottom: calc(var(--footer-gap) + env(safe-area-inset-bottom)) !important;
+}
+
+/* 30px między .flashcard a .nav-row (Poprzednia/Następna) */
+.flashcard { margin-bottom: 30px !important; }
+
+/* jeśli wcześniej dawałem .nav-row { margin-top:auto }, nadpisz to na 0 */
+.nav-row { margin-top: 0 !important; }
+
+
+
+        /* Responsywna szerokość + stała wysokość */
+:root{ --wymowa-h: 56px; }
+.btnin2{
+  width: min(90vw, 320px) !important; /* zwęża się na małych ekranach */
+  height: var(--wymowa-h) !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+
+
+/* 1. i 2. strona: 40px */
+.flashcard .front { font-size: 40px; }
+.flashcard .back  { font-size: 40px; }
+
+
+
+    /* Ta sama „ramka” boczna co dla selectów */
+.nav-row{
+  box-sizing: border-box;
+  padding-inline: var(--select-side-gap, 12px); /* używa istniejącej zmiennej lub 12px */
+  width: 100%;
+}
+
+/* (opcjonalnie) upewnij się, że oba przyciski równomiernie wypełniają wiersz */
+.nav-row > button{
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+        
     </style>
 </head>
 <body>
@@ -205,13 +410,15 @@ select.dark-mode {
     <button id="darkModeToggle" class="circle-toggle">&#9788;</button>
     <span class="centered-text">WYBIERZ ZESTAW FISZEK</span>
 </div>
+    
+    <div class="select-row">
        
 <select id="kategoria" onchange="
     var kategoria = this.value;
     var flashcardSet = document.getElementById('flashcard-set');
     flashcardSet.innerHTML = '';
 
-    if (kategoria === 'peppa') {
+        if (kategoria === 'peppa') {
         flashcardSet.innerHTML = `
         <option value=''>Wybierz fiszki</option>
             <option value='peppa1'>Peppa 1</option>
@@ -345,25 +552,35 @@ select.dark-mode {
     <option value="NGK">NGK</option>
 </select>
 
+
+
 <select id="flashcard-set" onchange="changeFlashcardSet()"></select>
 
-
+</div>
 
 
    
     <p>Ile fiszek pozostało</p>
     <div class="counter" id="counter">0/0</div>
      <div class="flashcard" id="flashcard" onclick="flipFlashcard()">
-    <div class="front" id="word">Loading...</div>
+    <div class="front" id="front">
+  <div id="word">Loading...</div>
+  <!-- Identyczny wizualnie przycisk jak "Więcej", ale na 3. stronie czyta tylko angielskie zdania -->
+  <button class="btn" id="readFourthBtn" onclick="speakFourthColumn(event)">Czytaj</button>
+</div>
+
     <div class="back">
         <div id="translation">Loading...</div>
         <div id="phonetics">Loading...</div>
         <button class="btn" id="showFourthColumnBtn" onclick="showFourthColumn(event)">Więcej</button>
-        
+       
     </div>
     </div>
-    <button class="btn" id="prevBtn" onclick="changeFlashcard('prev')"> Poprzednia </button>
-    <button class="btn" id="nextBtn" onclick="changeFlashcard('next')"style=margin-left:20px;> Następna </button>
+    <div class="nav-row">
+  <button class="btn" id="prevBtn" onclick="changeFlashcard('prev')">Poprzednia</button>
+  <button class="btn" id="nextBtn" onclick="changeFlashcard('next')">Następna</button>
+</div>
+
     <div class="dropdown-container">
        
     </div>
@@ -373,29 +590,35 @@ select.dark-mode {
     let currentIndex = 0;
     let history = [];
     const flashcardElement = document.getElementById("flashcard");
+    
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
     const body = document.body;
     const darkModeToggle = document.getElementById("darkModeToggle");
-    const kategoriaSelect = document.getElementById("kategoria"); 
-    const flashcardSetSelect = document.getElementById("flashcard-set"); 
+    const kategoriaSelect = document.getElementById("kategoria");
+    const flashcardSetSelect = document.getElementById("flashcard-set");
 
 
-    
-    function showFourthColumn() {
+   
+  function showFourthColumn() {
     if (flashcards.length === 0) return;
-document.getElementById("word").style.fontSize = "17px";
-
-        
+    const wordEl = document.getElementById("word");
+    wordEl.style.fontSize = "17px";         // mniejsza czcionka dla 5 zdań
     const card = flashcards[currentIndex];
-    document.getElementById("word").textContent = card.column4 || "Brak danych";
+    wordEl.textContent = card.column4 || "Brak danych";
+
+    // pokaż przycisk czytający tylko na trzeciej stronie
+    const readBtn = document.getElementById("readFourthBtn");
+    if (readBtn) readBtn.style.display = "block";
 }
-document.getElementById("word").style.fontSize = "17px";
+
 
 
 
 
     function getSheetUrl(setName) {
+
+        
         if (setName === "peppa1") {
             return "https://docs.google.com/spreadsheets/d/1g8KKo3CMvefulRHRjebbLquWtbUC7DxC/gviz/tq?tqx=out:csv";
         } else if (setName === "peppa2") {
@@ -559,6 +782,7 @@ document.getElementById("word").style.fontSize = "17px";
             return "https://docs.google.com/spreadsheets/d/18OGrL2OscJ2YpxGzAQzsfCB_21F-tm6V9tgU9-WO-rk/gviz/tq?tqx=out:csv";
         }
         return null;
+
     }
 
     async function fetchFlashcards(setName) {
@@ -572,7 +796,7 @@ document.getElementById("word").style.fontSize = "17px";
            
             flashcards = rows.map(row => {
                 const cols = row.split(",").map(col => col.replace(/"/g, "").trim());
-                 return { word: cols[0] || "Unknown", translation: cols[1] || "Unknown", phonetics: cols[2] || "Unknown", 
+                 return { word: cols[0] || "Unknown", translation: cols[1] || "Unknown", phonetics: cols[2] || "Unknown",
         column4: cols[3] || "Unknown"
     };
 
@@ -591,15 +815,26 @@ document.getElementById("word").style.fontSize = "17px";
     }
 
     function updateFlashcard() {
-        if (flashcards.length === 0) return;
-        flashcardElement.classList.remove("flipped"); // Reset do frontu
-        const card = flashcards[currentIndex];
-        document.getElementById("word").textContent = card.word;
-        document.getElementById("translation").textContent = card.translation;
-        document.getElementById("phonetics").textContent = card.phonetics;
-        document.getElementById("counter").textContent = `${currentIndex + 1}/${flashcards.length}`;
-        document.getElementById("word").style.fontSize = "40px";
-    }
+    if (flashcards.length === 0) return;
+    flashcardElement.classList.remove("flipped"); // wracamy na front (1. strona)
+   
+
+    const card = flashcards[currentIndex];
+    document.getElementById("word").textContent = card.word;
+    document.getElementById("translation").textContent = card.translation;
+    document.getElementById("phonetics").textContent = card.phonetics;
+    document.getElementById("counter").textContent = `${currentIndex + 1}/${flashcards.length}`;
+
+    // reset wyglądu frontu (1. strona)
+    const wordEl = document.getElementById("word");
+    wordEl.style.fontSize = "";   // wraca do rozmiaru z CSS (clamp)
+
+
+
+    const readBtn = document.getElementById("readFourthBtn");
+    if (readBtn) readBtn.style.display = "none";
+}
+
 
     function changeFlashcard(direction) {
         prevBtn.disabled = true;
@@ -635,6 +870,7 @@ document.getElementById("word").style.fontSize = "17px";
 
     function flipFlashcard() {
         flashcardElement.classList.toggle("flipped");
+          
     }
 
     function speakGoogle(event) {
@@ -645,14 +881,14 @@ document.getElementById("word").style.fontSize = "17px";
     const utterance = new SpeechSynthesisUtterance(word);
     utterance.lang = "en-GB"; // Ustawienie języka na brytyjski angielski
 
-    
-        
+   
+       
         function setVoiceAndSpeak() {
         const voices = speechSynthesis.getVoices();
-        
+       
         // Znajdujemy głos brytyjski - preferujemy naturalny głos
-        const britishVoice = voices.find(voice => 
-            voice.lang.includes("en-GB") && 
+        const britishVoice = voices.find(voice =>
+            voice.lang.includes("en-GB") &&
             (voice.name.includes("UK") || voice.name.includes("British") || voice.localService)
         );
 
@@ -667,7 +903,7 @@ document.getElementById("word").style.fontSize = "17px";
 
         utterance.rate = 0.9; // Lekkie spowolnienie dla lepszej wyraźności
         utterance.pitch = 1.0; // Standardowa wysokość głosu
-        
+       
         speechSynthesis.speak(utterance);
     }
 
@@ -710,13 +946,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const difference = touchStartX - touchEndX;
 
         if (difference > 50) {
-            changeFlashcard("next"); // Przesunięcie w lewo → następna fiszka
+            changeFlashcard("next"); // Przesunięcie w lewo › następna fiszka
         } else if (difference < -50) {
-            changeFlashcard("prev"); // Przesunięcie w prawo → poprzednia fiszka
+            changeFlashcard("prev"); // Przesunięcie w prawo › poprzednia fiszka
         }
        
     }
-    
+   
      });
  document.addEventListener("DOMContentLoaded", () => {
         // ... (listener dotykowy bez zmian)
@@ -726,10 +962,10 @@ document.addEventListener("DOMContentLoaded", () => {
             body.classList.toggle("dark-mode");
             flashcardElement.classList.toggle("dark-mode");
             flashcardSetSelect.classList.toggle("dark-mode");
-            kategoriaSelect.classList.toggle("dark-mode"); 
+            kategoriaSelect.classList.toggle("dark-mode");
             darkModeToggle.classList.toggle('inverted');
 
-            
+           
         if (body.classList.contains("dark-mode")) {
                 darkModeToggle.innerHTML = "&#9788;"; // Księżyc
                 localStorage.setItem("darkMode", "enabled");
@@ -751,9 +987,77 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 </script>
- <button class="btnin2" onclick="speakGoogle(event)"style=margin-top:-10px;>&#128266;WYMOWA&#128266;</button>
+
+
+
+
+
+
+
+
+<script>
+// Czytanie kolumny 4 bez polskich tłumaczeń w nawiasach
+function speakFourthColumn(event) {
+    // nie odwracaj karty przy kliknięciu w przycisk
+    event.stopPropagation();
+
+    const raw = (document.getElementById("word")?.textContent || "");
+    // usuń wszystko w nawiasach (...) razem z nawiasami
+    const englishOnly = raw.replace(/\([^)]*\)/g, " ").replace(/\s{2,}/g, " ").trim();
+    if (!englishOnly) return;
+
+    const utter = new SpeechSynthesisUtterance(englishOnly);
+    utter.lang = "en-GB";
+    utter.rate = 0.95;
+    utter.pitch = 1.0;
+
+    // spróbuj dobrać brytyjski głos, potem fallback
+    const speakNow = () => {
+        const voices = speechSynthesis.getVoices();
+        const gb = voices.find(v => v.lang?.includes("en-GB") && (v.name?.includes("UK") || v.name?.includes("British") || v.localService));
+        if (gb) utter.voice = gb;
+        speechSynthesis.speak(utter);
+    };
+    if (speechSynthesis.getVoices().length > 0) speakNow();
+    else speechSynthesis.onvoiceschanged = speakNow;
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+ <button class="btnin2" 
+        onclick="speakGoogle(event)" 
+        style="margin-top:-20px; width:199px; height:50px;">
+    &#128266;WYMOWA&#128266;
+</button>
+
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
