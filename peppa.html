@@ -445,6 +445,7 @@ body { display: flex; flex-direction: column; }
             <option value='A1-A2(1)'>A1-A2(1)</option>
             <option value='A1-A2(2)'>A1-A2(2)</option>
             <option value='A1-A2(3)'>A1-A2(3)</option>
+            <option value='A1-A2 LOW NEW'>A1-A2 LOW NEW</option>
             
         `;
 
@@ -654,6 +655,12 @@ body { display: flex; flex-direction: column; }
             return "https://docs.google.com/spreadsheets/d/1BewmID2tMHyYwiBhxINbpZERjBdbRZ35/gviz/tq?tqx=out:csv";
         
             }
+
+            else if (setName === "A1-A2 LOW NEW") {
+            return "https://docs.google.com/spreadsheets/d/1o3ebs3qbLZWlwYhfSqzA2RxKZpEl0rtg/gviz/tq?tqx=out:csv";
+        
+            }
+            
             else if (setName === "Stage1(1)") {
             return "https://docs.google.com/spreadsheets/d/1EsX81PNkqYQuppP1Yj26jh7WsoxFwpIr/gviz/tq?tqx=out:csv";
         }
@@ -1082,6 +1089,7 @@ function speakFourthColumn(event) {
 
 </body>
 </html>
+
 
 
 
